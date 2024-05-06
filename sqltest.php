@@ -1,3 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="sqltest.css">
+</head>
+<body>
+    
+
 <?php
 
 //get the login file for connecction with mysql db
@@ -10,30 +22,66 @@
         throw new PDOException ($e->getMessage(), (int)$e->getCode());
     }
 
+
+// To prevent SQL injection
+    // function get_post($pdo, $var) {
+    //     return $pdo->quote($_POST[$var]);
+    // }
+// 
+
+    // The PDO::quote() method adds quotes around a string, 
+    // making it safe for use in SQL queries. 
+    // But when you're using PDO::quote() with an integer value, 
+    // it adds quotes unnecessarily, which can cause issues in SQL queries.
+    // SO, a below is a modified get_post() function:
+
+//----------modified get_post() function:        
+    function get_post($pdo, $var) {
+        return $pdo->quote($_POST[$var]) ?? null;
+    }
+    
+
 //Delete functionality
-    if(isset($_POST['delete']) && isset($_POST['isbn'])) {
-        $isbn   = get_post($pdo, 'isbn');
-        $query  = "DELETE FROM classics WHERE isbn=$isbn";
-        $result = $pdo->query($query);
+    // if(isset($_POST['delete']) && isset($_POST['id'])) {
+    //     $id     = get_post($pdo, 'id');
+    //     $query  = "DELETE FROM classics WHERE id=$id";
+    //     $result = $pdo->query($query);
+    // }
+
+//------Modified delete functionality
+    if(isset($_POST['delete']) && isset($_POST['id'])) {
+        $id   = get_post($pdo, 'id');
+        if ($id !== null) {
+            $query  = "DELETE FROM classics WHERE id=$id";
+            $result = $pdo->query($query);
+        }
     }
 
+    
 //Add functionality
-    if (isset($POST['author']) &&
-        isset($POST['title']) &&
-        isset($POST['type']) &&
-        isset($POST['year']) &&
-        isset($POST['id']))
+    if (isset($_POST['author']) &&
+        isset($_POST['title']) &&
+        isset($_POST['type']) &&
+        isset($_POST['year']) &&
+        isset($_POST['id']))
 
     {
         $author     = get_post($pdo, 'author');
         $title      = get_post($pdo, 'title');
         $type       = get_post($pdo, 'type');
         $year       = get_post($pdo, 'year');
-        $id         = get_post($pdo, 'id');
+        $id         = get_post($pdo, 'id');       
 
-        $query  = "INSERT INTO classics VALUES" . 
-            "($author, $title, $type, $year, $id )";
-        $result = $pdo->query($query);
+        // $query  = "INSERT INTO classics VALUES" . 
+        //     "($author, $title, $type, $year, $id)";
+        // $result = $pdo->query($query);
+
+        //------Modified if conditional for the add functionality
+        if ($author !== null && $title !== null && $type !== null && $year !== null && $id !== null) {
+            $query  = "INSERT INTO classics VALUES" . 
+                "($author, $title, $type, $year, $id )";
+            $result = $pdo->query($query);
+        }
     }
 
 
@@ -48,7 +96,6 @@
                 Year        <input type="text" name="year">
                 ISBN        <input type="text" name="id">
                             <input type="submit" value="ADD RECORD">
-                
             </pre>
         </form>    
     _END;
@@ -84,3 +131,16 @@
 
 
 ?>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
