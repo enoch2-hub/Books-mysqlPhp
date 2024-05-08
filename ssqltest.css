@@ -22,7 +22,8 @@ time, mark, audio, video {
 
 /* Glass effect */
 body {
-  background-color: #202020; /* Black background */
+  background-color: #242424; /* Black background */
+  /* padding: 0 20rem; */
 }
 
 /* Form styles */
@@ -32,6 +33,13 @@ form {
   border-radius: 1rem;
   /* border: 1px solid #fff; */
   background-color: #ffef62c7; /* Yellowish background */
+}
+
+.form2 {
+  margin-top: -2rem;
+  border-radius: 0rem;
+  /* width: fit-content; */
+  background-color: rgb(204, 204, 204);
 }
 
 form input[type="text"] {
@@ -57,6 +65,13 @@ form input[type="submit"]:hover {
   background-color: #333; /* Darker black on hover */
 }
 
+.record-container {
+  display: flex;
+  flex-wrap: nowrap;
+  background-color: #ffffff;
+  width: 30rem;
+}
+
 /* Data display styles */
 pre {
   margin: 20px;
@@ -65,3 +80,5 @@ pre {
   border-radius: 1rem;
   background-color: yellow;
 }
+
+

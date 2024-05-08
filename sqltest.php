@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
-    <link rel="stylesheet" href="sqltest.css">
+    <link rel="stylesheet" href="./ssqltest.css">
 </head>
 <body>
     
@@ -97,35 +97,37 @@
                 ISBN        <input type="text" name="id">
                             <input type="submit" value="ADD RECORD">
             </pre>
-        </form>    
-    _END;
-
-
-// Display existing data in the db
-    $query  = "SELECT * FROM classics";
-    $result = $pdo->query($query);
-
-    while ($row = $result->fetch())
-    {
-        $r0 = htmlspecialchars($row['author']);
+        </form>
+        _END;
+        
+        
+        // Display existing data in the db
+        $query  = "SELECT * FROM classics";
+        $result = $pdo->query($query);
+        
+        while ($row = $result->fetch())
+        {
+            $r0 = htmlspecialchars($row['author']);
         $r1 = htmlspecialchars($row['title']);
         $r2 = htmlspecialchars($row['type']);
         $r3 = htmlspecialchars($row['year']);
         $r4 = htmlspecialchars($row['id']);
-
-    echo <<<_END
-        <pre>
-            Author      $r0
-            Title       $r1
-            Category    $r2
-            Year        $r3
-            ISBN        $r4
-        </pre>
-
-    <form action='sqltest.php' method='post'>
-        <input type='hidden'>
-    </form>
-
+        
+        echo <<<_END
+            <pre>
+                Author      $r0
+                Title       $r1
+                Category    $r2
+                Year        $r3
+                ISBN        $r4
+            </pre>
+            
+            <form class='form2' action='sqltest.php' method='post'>
+                <input type='hidden' name='delete' value='yes'>
+                <input type='hidden' name='id' value='$r4'>
+                <input type='submit' value='DELTE RECORD'>
+            </form>
+        
     _END;
     }
 
